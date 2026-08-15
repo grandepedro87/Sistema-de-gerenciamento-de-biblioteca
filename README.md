@@ -51,7 +51,7 @@ biblioteca/
 ### Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/sistema-de-gerenciamento-de-biblioteca.git
+git clone https://github.com/grandepedro87/Sistema-de-gerenciamento-de-biblioteca
 ```
 
 ### Frontend
