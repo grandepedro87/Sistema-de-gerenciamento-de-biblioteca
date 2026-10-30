@@ -1,123 +1,172 @@
-.books{
-  padding: 20px;
+
+.books {
+  box-sizing: border-box;
+  width: calc(100% - 40px);
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 24px;
+
   background-color: var(--border);
-  margin: 50px;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
+/* Pesquisa */
 .books #search-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  align-items: stretch;
+  gap: 10px;
+  margin-bottom: 24px;
 }
 
 .books #search-input {
-  width: 400px;
-  padding: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
+  min-width: 0;
+  padding: 12px 14px;
+
   border: 1px solid var(--code-bg);
-  border-radius: 5px;
+  border-radius: 6px;
+  font: inherit;
+
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.books #search-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .books #search-button {
-  padding: 10px 20px;
-  margin-left: 10px;
+  flex-shrink: 0;
+  padding: 12px 20px;
+
   background-color: var(--accent);
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+
   cursor: pointer;
   font-family: var(--heading);
+  font-weight: 600;
+
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 .books #search-button:hover {
   background-color: var(--accent-border);
 }
 
+/* Botões de ação */
 .buttons {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .buttons button {
-  padding: 10px 20px;
+  padding: 11px 18px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+
   cursor: pointer;
   font-family: var(--heading);
+  font-weight: 600;
+
+  transition: background-color 0.2s, transform 0.2s;
 }
 
+.buttons button:hover {
+  transform: translateY(-1px);
+}
+
+.buttons button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Listar */
 .buttons #list-button {
-  background-color: #300cffee;
+  background-color: #300cee;
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-family: var(--heading);
 }
 
 .buttons #list-button:hover {
-  background-color: rgb(1, 1, 146);
+  background-color: #2410a8;
 }
 
+/* Adicionar */
 .buttons #add-button {
-  background-color: #08fd00;
+  background-color: #15803d;
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-family: var(--heading);
 }
 
 .buttons #add-button:hover {
-  background-color: rgb(2, 100, 2);
+  background-color: #166534;
 }
 
+/* Atualizar */
 .buttons #update-button {
-  background-color: #f5f500;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-family: var(--heading);
+  background-color: #f5d90a;
+  color: #272000;
 }
 
 .buttons #update-button:hover {
-  background-color: rgb(112, 112, 2);
+  background-color: #d4b900;
 }
 
+/* Excluir */
 .buttons #delete-button {
-  background-color: #ff0000;
+  background-color: #dc2626;
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-family: var(--heading);
 }
 
 .buttons #delete-button:hover {
-  background-color: rgb(104, 1, 1);
+  background-color: #991b1b;
 }
 
-@media (max-width: 1024px) {
+/* Tablets e celulares */
+@media (max-width: 640px) {
   .books {
-    margin: 20px;
-    padding: 10px;
+    width: calc(100% - 24px);
+    margin: 16px auto;
+    padding: 16px;
+  }
+
+  .books #search-container {
+    flex-direction: column;
   }
 
   .books #search-input {
-    width: 200px;
+    max-width: none;
+  }
+
+  .books #search-button {
+    width: 100%;
   }
 
   .buttons {
     flex-direction: column;
-    margin: 20px;
-    gap: 5px;
+    margin: 10px;
   }
 
   .buttons button {
     width: 100%;
-    padding: 10px;
+  }
+}
+
+/* Respeita a preferência por menos animações */
+@media (prefers-reduced-motion: reduce) {
+  .books #search-input,
+  .books #search-button,
+  .buttons button {
+    transition: none;
+  }
+
+  .buttons button:hover {
+    transform: none;
   }
 }
