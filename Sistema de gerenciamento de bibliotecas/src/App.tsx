@@ -2,14 +2,18 @@ import { useEffect, useState } from 'react'
 import Search from './components/Search'
 import Buttons from './components/Buttons'
 import type { Livro } from './types/Livros'
-import { listarLivros } from './services/LivroService'
-import { cadastrarLivro } from './services/LivroService'
+import { listarLivros,
+  cadastrarLivro,
+  atualizarLivro as atualizarLivroAPI
+ } from './services/LivroService'
 import './App.css'
 import AddBook from './components/AddBook'
+import UpdateBook from './components/UpdateBook'
 
 function App() {
   const [livros, setLivros] = useState<Livro[]>([])
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
+  const [livroParaAtualizar, setLivroParaAtualizar] = useState<Livro | null>(null)
 
   async function adicionarLivro(novoLivro: Omit<Livro, 'id'>) {
     try {
@@ -38,6 +42,22 @@ try {
     carregarLivros()
   }, [])
  
+async function handleAtualizarLivro(
+  id: number,
+  livroAtualizado: Omit<Livro, 'id'>
+) {
+  try {
+    await atualizarLivroAPI(id, { id, ...livroAtualizado })
+
+    await carregarLivros()
+
+    setLivroParaAtualizar(null)
+    alert('Livro atualizado com sucesso!')
+  } catch (error) {
+    console.error('Erro ao atualizar livro:', error)
+    alert('Erro ao atualizar livro. Por favor, tente novamente.')
+  }
+}
 
   return (
     <>
@@ -45,11 +65,22 @@ try {
       <Buttons
           onList={carregarLivros}
           onAdd={() => setMostrarFormulario(true)}
-          onUpdate={() => console.log('Atualizar livro')}
+          onUpdate={() => setLivroParaAtualizar(livros[0])}
           onDelete={() => console.log('Excluir livro')}
         />
         {mostrarFormulario && (
           <AddBook onAdd={adicionarLivro} />
+        )}
+
+        {livroParaAtualizar && (
+          <UpdateBook
+            livro={livroParaAtualizar}
+            onUpdate={(livro) => {
+              const { id, ...livroAtualizado } = livro
+              return handleAtualizarLivro(id, livroAtualizado)
+            }}
+            onCancel={() => setLivroParaAtualizar(null)}
+          />
         )}
 
       <section className="livros-section">
@@ -66,6 +97,7 @@ try {
                 <p>Editora: {livro.editora}</p>
                 <p>Ano de Publicação: {livro.anoPublicacao}</p>
                 <p>Quantidade disponível: {livro.quantidadeDisponivel}</p>
+                <button onClick={() => setLivroParaAtualizar(livro)}>Atualizar</button>
               </li>
             ))}
           </ul>

@@ -52,13 +52,6 @@ namespace Biblioteca.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLivro(int id, Livros livro)
         {
-            if (id != livro.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(livro).State = EntityState.Modified;
-
             var livroExistente = await _context.Livros.FindAsync(id);
             if (livroExistente == null)
             {
