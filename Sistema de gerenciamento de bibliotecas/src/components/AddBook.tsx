@@ -3,10 +3,11 @@ import type { Livro } from '../types/Livros'
 import type { FormEvent } from 'react'
 
 interface AddBookProps {
-  onAdd: (livro: Omit<Livro, 'id'>) => void
+  onAdd: (livro: Omit<Livro, 'id'>) => void,
+  onCancel: () => void
 }
 
-export default function AddBook({ onAdd }: AddBookProps) {
+export default function AddBook({ onAdd, onCancel }: AddBookProps) {
   const [titulo, setTitulo] = useState('')
   const [autor, setAutor] = useState('')
   const [editora, setEditora] = useState('')
@@ -72,6 +73,7 @@ export default function AddBook({ onAdd }: AddBookProps) {
             />
 
             <button type="submit">Adicionar Livro</button>
+            <button type="button" onClick={onCancel}>Cancelar</button>
         </form>
     ) 
 }
