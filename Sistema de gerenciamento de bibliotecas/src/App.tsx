@@ -15,7 +15,7 @@ function App() {
   const [livros, setLivros] = useState<Livro[]>([])
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
   const [livroParaAtualizar, setLivroParaAtualizar] = useState<Livro | null>(null)
-  const [mostrarlivros, setMostrarLivros] = useState(false)
+  const [mostrarLivros, setMostrarLivros] = useState(false)
   const [livroPesquisado, setLivroPesquisado] = useState<Livro | null>(null)
   const [pesquisaRealizada, setPesquisaRealizada] = useState(false)
 
@@ -98,56 +98,73 @@ async function handleDeletarLivro(id: number) {
   }
 }
 
-  return (
-    <>
+  
+return (
+  <div className="app-container">
+    <header className="app-header">
+      <div className="header-content">
+        <div className="header-brand">
+          <span className="brand-icon">📚</span>
+          <div>
+            <h1>Biblioteca Digital</h1>
+            <p>Sistema de gerenciamento de livros</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main className="app-main">
       <Search onSearch={pesquisarLivro} />
 
       {pesquisaRealizada && (
-      <section className="livros-section">
-        <h2>Resultado da pesquisa</h2>
+        <section className="livros-section">
+          <h2>Resultado da pesquisa</h2>
 
-        {livroPesquisado ? (
-          <div>
-            <h3>{livroPesquisado.titulo}</h3>
-            <p>Autor: {livroPesquisado.autor}</p>
-            <p>Editora: {livroPesquisado.editora}</p>
-            <p>Ano de publicação: {livroPesquisado.anoPublicacao}</p>
-            <p>Quantidade disponível: {livroPesquisado.quantidadeDisponivel}</p>
-          </div>
-        ) : (
-          <p>Nenhum livro encontrado.</p>
-        )}
-      </section>
-    )}
+          {livroPesquisado ? (
+            <div>
+              <h3>{livroPesquisado.titulo}</h3>
+              <p>Autor: {livroPesquisado.autor}</p>
+              <p>Editora: {livroPesquisado.editora}</p>
+              <p>Ano de publicação: {livroPesquisado.anoPublicacao}</p>
+              <p>Quantidade disponível: {livroPesquisado.quantidadeDisponivel}</p>
+            </div>
+          ) : (
+            <p>Nenhum livro encontrado.</p>
+          )}
+        </section>
+      )}
 
       <Buttons
-          onList={async () => {
+        onList={async () => {
           await carregarLivros()
           setMostrarLivros(true)
           setPesquisaRealizada(false)
           setLivroPesquisado(null)
         }}
-          onAdd={() => setMostrarFormulario(true)}
-          onUpdate={() => setLivroParaAtualizar(livros[0])}
-          onDelete={() => {}}
+        onAdd={() => setMostrarFormulario(true)}
+        onUpdate={() => setLivroParaAtualizar(livros[0])}
+        onDelete={() => {}}
+      />
+
+      {mostrarFormulario && (
+        <AddBook
+          onAdd={adicionarLivro}
+          onCancel={() => setMostrarFormulario(false)}
         />
-        {mostrarFormulario && (
-          <AddBook onAdd={adicionarLivro}
-          onCancel={() => setMostrarFormulario(false)} />
-        )}
+      )}
 
-        {livroParaAtualizar && (
-          <UpdateBook
-            livro={livroParaAtualizar}
-            onUpdate={(livro) => {
-              const { id, ...livroAtualizado } = livro
-              return handleAtualizarLivro(id, livroAtualizado)
-            }}
-            onCancel={() => setLivroParaAtualizar(null)}
-          />
-        )}
+      {livroParaAtualizar && (
+        <UpdateBook
+          livro={livroParaAtualizar}
+          onUpdate={(livro) => {
+            const { id, ...livroAtualizado } = livro
+            return handleAtualizarLivro(id, livroAtualizado)
+          }}
+          onCancel={() => setLivroParaAtualizar(null)}
+        />
+      )}
 
-      {mostrarlivros && (
+      {mostrarLivros && (
         <section className="livros-section">
           <h2>Livros Disponíveis</h2>
 
@@ -162,16 +179,24 @@ async function handleDeletarLivro(id: number) {
                   <p>Editora: {livro.editora}</p>
                   <p>Ano de Publicação: {livro.anoPublicacao}</p>
                   <p>Quantidade disponível: {livro.quantidadeDisponivel}</p>
-                  <button onClick={() => setLivroParaAtualizar(livro)}>Atualizar</button>
-                  <button onClick={() => handleDeletarLivro(livro.id)}>Deletar</button>
+
+                  <button onClick={() => setLivroParaAtualizar(livro)}>
+                    Atualizar
+                  </button>
+
+                  <button onClick={() => handleDeletarLivro(livro.id)}>
+                    Deletar
+                  </button>
                 </li>
               ))}
             </ul>
           )}
         </section>
       )}
-    </>
-  )
+    </main>
+  </div>
+)
+
 }
 
 export default App
